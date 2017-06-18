@@ -1,3 +1,4 @@
+const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
 const isProd = process.env.NODE_ENV === 'production';
@@ -66,6 +67,20 @@ module.exports = {
           prefix: 'font/',
           limit: 10000,
         },
+      }],
+    }, {
+      test: /\.less$/,
+      use: [{
+        loader: 'style-loader',
+        options: {
+          plugins() {
+            return [autoprefixer];
+          },
+        },
+      }, {
+        loader: 'css-loader',
+      }, {
+        loader: 'less-loader',
       }],
     }, {
       test: /\.(gif|png|svg)$/i,

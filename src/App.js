@@ -1,6 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import glam from 'glamorous';
+import Header from './Header';
 
 const sideBarWidth = 200;
 const bodyPadding = sideBarWidth + 10;
@@ -19,11 +20,6 @@ const AppBodyWrapper = glam.div({
   zIndex: 10,
   position: 'relative',
   paddingLeft: bodyPadding,
-});
-const Header = glam.div({
-  width: '100%',
-  minHeight: 30,
-  backgroundColor: 'pink',
 });
 const AppBody = glam.div({
   flexGrow: 1,
