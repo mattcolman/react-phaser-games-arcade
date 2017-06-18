@@ -10,17 +10,17 @@ import NotFound from './NotFound';
 export default function Main() {
   const history = createBrowserHistory();
   return (
-    <App>
-      <BrowserRouter history={history}>
+    <BrowserRouter history={history}>
+      <App>
         <Switch>
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
           <Route exact path="/home" component={Home} />
-          <Route path="/:gameId" component={GameScene} />
+          <Route path="/game/:id" component={GameScene} />
           <Route path="*" component={NotFound} />
         </Switch>
-      </BrowserRouter>
-    </App>
+      </App>
+    </BrowserRouter>
   );
 }

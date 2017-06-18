@@ -2,6 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import glam from 'glamorous';
 import Header from './Header';
+import Sidebar from './Sidebar';
 
 const sideBarWidth = 200;
 const bodyPadding = sideBarWidth + 10;
@@ -24,13 +25,12 @@ const AppBodyWrapper = glam.div({
 const AppBody = glam.div({
   flexGrow: 1,
 });
-const Sidebar = glam.div({
+const SidebarContainer = glam.div({
   position: 'absolute',
   top: 0,
   left: 0,
   width: sideBarWidth,
   height: '100vh',
-  backgroundColor: 'red',
 });
 const Footer = glam.div({
   width: '100vw',
@@ -38,6 +38,12 @@ const Footer = glam.div({
   backgroundColor: 'blue',
   paddingLeft: bodyPadding,
 });
+
+const games = [
+  { name: 'game 1', url: '/game/1' },
+  { name: 'game 2', url: '/game/2' },
+  { name: 'game 3', url: '/game/3' },
+];
 
 export default function App({
   children,
@@ -52,6 +58,8 @@ export default function App({
           {children}
         </AppBody>
         <Sidebar
+          games={games}
+          width={sideBarWidth}
         />
         <Footer
         />

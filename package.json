@@ -10,6 +10,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "color": "^1.0.3",
     "glamor": "^2.20.25",
     "glamorous": "^3.23.3",
     "gsap": "^1.19.0",
