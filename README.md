@@ -1,7 +1,11 @@
-##Install
+## Install
 
-```npm i```
+`npm install`
+OR
+`yarn`
 
-##Run dev
+## Run
 
-```npm run dev```
+`npm start`
+OR
+`yarn start`
