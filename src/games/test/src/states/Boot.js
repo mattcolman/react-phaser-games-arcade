@@ -29,9 +29,14 @@ export default class extends Phaser.State {
   }
 
   setupStage() {
-    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    this.input.maxPointers = 1;
-    this.scale.refresh();
+    this.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+    this.scale.setResizeCallback(() => {
+      const xScale = this.game.parent.offsetWidth / this.game.width;
+      const yScale = this.game.parent.offsetHeight / this.game.height;
+      console.log('resize', this.game.parent.offsetHeight, this.game.height);
+      const scale = Math.min(xScale, yScale);
+      this.scale.setUserScale(scale, scale);
+    });
   }
 
   addStates() {

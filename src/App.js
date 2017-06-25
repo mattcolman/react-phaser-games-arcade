@@ -14,8 +14,8 @@ const Background = glam.div({
   overflow: 'hidden',
 });
 const AppBodyWrapper = glam.div({
-  width: '100%',
-  minHeight: '100vh',
+  // width: '100%',
+  height: '100vh',
   display: 'flex',
   flexDirection: 'column',
   zIndex: 10,
@@ -24,6 +24,9 @@ const AppBodyWrapper = glam.div({
 });
 const AppBody = glam.div({
   flexGrow: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  // height: '100%',
 });
 const SidebarContainer = glam.div({
   position: 'absolute',
@@ -33,7 +36,7 @@ const SidebarContainer = glam.div({
   height: '100vh',
 });
 const Footer = glam.div({
-  width: '100vw',
+  width: '100%',
   minHeight: 30,
   backgroundColor: 'blue',
   paddingLeft: bodyPadding,
