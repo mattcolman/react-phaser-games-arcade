@@ -12,14 +12,13 @@ const compiler = webpack(Object.assign({}, config, {
   entry: [
     'webpack-dev-server/client',
     'webpack/hot/dev-server',
-    'babel-polyfill',
-    path.resolve(__dirname, 'src/index.js'),
+    ...config.entry.app,
   ],
-  output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'example_app.js',
-    publicPath: '/',
-  },
+  // output: {
+  //   path: path.resolve(__dirname, 'public'),
+  //   filename: 'example_app.js',
+  //   publicPath: '/',
+  // },
   plugins: [
     ...config.plugins,
     new webpack.HotModuleReplacementPlugin(),

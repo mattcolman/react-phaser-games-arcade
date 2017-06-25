@@ -10,22 +10,27 @@ const GameDiv = glam.div({
   justifyContent: 'center',
 });
 
-class GameScene extends Component {
+class FidgetSpinner extends Component {
 
   componentDidMount() {
-    import(/* webpackChunkName: "game" */ './games/test/src/index').then((module) => {
+    import(/* webpackChunkName: "fidget-spinner" */ './src/index').then((module) => {
       const create = module.default;
-      create(this.parent);
+      this.game = create(this.parent);
     })
   }
 
+  componentWillUnmount() {
+    if (this.game) {
+      console.log('kill fidget-spinner');
+      this.game.destroy();
+    }
+  }
+
   render() {
-    const { match: { params } } = this.props;
-    console.log('oh hi params', params);
     return (
       <GameDiv innerRef={(ref) => { this.parent = ref; }} />
     );
   }
 }
 
-export default GameScene;
+export default FidgetSpinner;

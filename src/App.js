@@ -28,13 +28,6 @@ const AppBody = glam.div({
   flexDirection: 'column',
   // height: '100%',
 });
-const SidebarContainer = glam.div({
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: sideBarWidth,
-  height: '100vh',
-});
 const Footer = glam.div({
   width: '100%',
   minHeight: 30,
@@ -43,8 +36,8 @@ const Footer = glam.div({
 });
 
 const games = [
-  { name: 'game 1', url: '/game/fidget-spinner' },
-  { name: 'game 2', url: '/game/2' },
+  { name: 'Fidget Spinner', url: '/game/fidget-spinner' },
+  { name: 'Pong', url: '/game/pong' },
   { name: 'game 3', url: '/game/3' },
 ];
 

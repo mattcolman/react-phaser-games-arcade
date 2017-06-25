@@ -18,6 +18,7 @@ const manifest = {
 export default class extends Phaser.State {
 
   create() {
+    console.log('boot me up');
     const loader = this.game.plugins.add(ManifestLoader, req);
     loader.loadManifest(manifest).then(() => {
       this.setupStage();
@@ -29,12 +30,16 @@ export default class extends Phaser.State {
 
   setupStage() {
     this.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-    this.scale.setResizeCallback(() => {
-      const xScale = this.game.parent.offsetWidth / this.game.width;
-      const yScale = this.game.parent.offsetHeight / this.game.height;
-      const scale = Math.min(xScale, yScale);
-      this.scale.setUserScale(scale, scale);
-    });
+    this.scale.setResizeCallback(this.scaleGame);
+    this.scaleGame();
+  }
+
+  scaleGame = () => {
+    const xScale = this.game.parent.offsetWidth / this.game.width;
+    const yScale = this.game.parent.offsetHeight / this.game.height;
+    console.log('resize', this.game.parent.offsetHeight, this.game.height);
+    const scale = Math.min(xScale, yScale);
+    this.scale.setUserScale(scale, scale);
   }
 
   addStates() {
@@ -44,4 +49,5 @@ export default class extends Phaser.State {
   startGame() {
     this.state.start('Main');
   }
+
 }
