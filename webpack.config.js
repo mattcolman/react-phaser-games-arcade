@@ -10,6 +10,12 @@ const phaser = path.join(phaserModule, 'build/custom/phaser-split.js');
 const pixi = path.join(phaserModule, 'build/custom/pixi.js');
 const p2 = path.join(phaserModule, 'build/custom/p2.js');
 
+const phaserLoaders = [
+  { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
+  { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
+  { test: /p2\.js/, use: ['expose-loader?p2'] },
+];
+
 module.exports = {
   entry: {
     app: [
@@ -17,18 +23,11 @@ module.exports = {
       path.resolve(__dirname, 'src/index.js')
     ]
   },
-  devServer: {
-    contentBase: path.join(__dirname, "public"),
-    compress: true,
-    port: 3000
-  },
-  // devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: "[name]-[hash].js",
     publicPath: '/'
   },
-  watch: !isProd,
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -47,7 +46,8 @@ module.exports = {
     }),
   ] : []),
   module: {
-    rules: [{
+    rules: [
+      ...phaserLoaders, {
       test: /\.jsx?$/,
       use: 'babel-loader',
       include: [
@@ -111,6 +111,12 @@ module.exports = {
           limit: 25000,
         },
       }],
+    }, {
+      test: /\.xml$/,
+      use: 'file-loader?hash=sha512&digest=hex&name=[name]-[hash].[ext]',
+    }, {
+      test: /\.mp3$/,
+      use: 'file-loader?hash=sha512&digest=hex&name=[name]-[hash].[ext]',
     }],
   },
   resolve: {
@@ -118,6 +124,9 @@ module.exports = {
     modules: ['node_modules'],
     alias: {
       src: path.join(__dirname, 'src'),
+      phaser,
+      pixi,
+      p2,
     },
   },
 };

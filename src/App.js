@@ -40,7 +40,7 @@ const Footer = glam.div({
 });
 
 const games = [
-  { name: 'game 1', url: '/game/1' },
+  { name: 'game 1', url: '/game/fidget-spinner' },
   { name: 'game 2', url: '/game/2' },
   { name: 'game 3', url: '/game/3' },
 ];
