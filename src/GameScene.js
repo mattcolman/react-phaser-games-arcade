@@ -1,17 +1,20 @@
+// @flow
+
 import React, { Component } from 'react';
 import scriptjs from 'scriptjs';
 import GameLoader from './GameLoader';
 
+type Props = {
+  match: { params: { gameId: string }},
+};
+
 class GameScene extends Component {
+  props: Props;
+  state = { phaserReady: window.Phaser };
 
-  state = { phaserReady: false };
-
-  componentDidMount() {
-    if (window.Phaser) {
-      // already loaded Phaser
-      this.setState({ phaserReady: true });
-    } else {
-      scriptjs(['https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js'], 'phaser')
+  componentWillMount() {
+    if (!window.Phaser) {
+      scriptjs(['https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js'], 'phaser');
       scriptjs.ready('phaser', () => {
         this.setState({ phaserReady: true });
       });

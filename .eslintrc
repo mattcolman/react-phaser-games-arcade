@@ -1,11 +1,72 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "plugins": [
+    "flowtype"
+  ],
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+  ],
+  "globals": {
+    "document": false,
+    "window": false
+  },
+  "rules": {
+    "flowtype/delimiter-dangle": [2, "always-multiline"],
+    "flowtype/define-flow-type": 2,
+    "flowtype/require-valid-file-annotation": 2,
+    "flowtype/semi": 2,
+    "flowtype/use-flow-type": 2,
+    "flowtype/valid-syntax": 2,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/sort-comp": [2, {
+      "order": [
+        "state-and-props",
+        "static-methods",
+        "lifecycle",
+        "/^on.+$/",
+        "/^handle.+$/",
+        "/^(get|set)(?!(InitialState$|DefaultProps$|ChildContext$)).+$/",
+        "everything-else",
+        "/^render.+$/",
+        "render"
+      ],
+      "groups": {
+        "state-and-props": [
+          "props",
+          "state"
+        ],
+        "lifecycle": [
+          "displayName",
+          "propTypes",
+          "contextTypes",
+          "childContextTypes",
+          "mixins",
+          "statics",
+          "defaultProps",
+          "constructor",
+          "getDefaultProps",
+          "getInitialState",
+          "getChildContext",
+          "componentWillMount",
+          "componentDidMount",
+          "componentWillReceiveProps",
+          "shouldComponentUpdate",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "componentWillUnmount"
+        ]
+      }
+    }],
+  },
   "settings": {
     "import/resolver": {
       "webpack": {
         "config": "webpack.config.js"
       }
-    }
+    },
+    "onlyFilesWithFlowAnnotation": true
   }
 }
