@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import glam from 'glamorous';
+import Spinner from 'src/components/commons/Spinner';
 
 type Props = {
   gameId: string,
@@ -63,9 +64,12 @@ class GameLoader extends Component {
 
   render() {
     const { isLoading } = this.state;
-    if (isLoading) return null; // replace with spinner
     return (
-      <GameDiv innerRef={(ref) => { this.parent = ref; }} />
+      <GameDiv innerRef={(ref) => { this.parent = ref; }}>
+        {isLoading && (
+          <Spinner />
+        )}
+      </GameDiv>
     );
   }
 }
