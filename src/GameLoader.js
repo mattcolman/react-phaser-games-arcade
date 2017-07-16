@@ -1,6 +1,18 @@
+// @flow
+
 import React, { Component } from 'react';
 import glam from 'glamorous';
 
+type Props = {
+  gameId: string,
+};
+
+type State = {
+  isLoading: boolean,
+};
+
+// use bundle-loader because it's slightly easier to handle lazy loading.
+// you could easily replace this with dynamic import.
 const Games = {
   'fidget-spinner': require("bundle-loader?lazy&name=fidgetspinner!./games/fidgetSpinner/src/index.js"),
   'pong': require("bundle-loader?lazy&name=pong!./games/pong/src/index.js"),
@@ -17,13 +29,14 @@ const GameDiv = glam.div({
 
 class GameLoader extends Component {
 
-  state = { loading: true };
+  props: Props;
+  state: State = { isLoading: true };
 
   componentWillMount() {
     this.loadNewGame(this.props.gameId);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.gameId !== this.props.gameId) {
       this.loadNewGame(nextProps.gameId);
     }
@@ -33,20 +46,24 @@ class GameLoader extends Component {
     if (this.game) this.game.destroy();
   }
 
-  loadNewGame = (gameId) => {
+  game: ?Object = null;
+  parent: any;
+
+  loadNewGame = (gameId: string) => {
     if (this.game) this.game.destroy();
     this.game = null;
-    this.setState({ loading: true });
+    this.setState({ isLoading: true });
 
     Games[gameId]((module) => {
       const create = module.default;
       this.game = create(this.parent);
-      this.setState({ loading: false });
+      this.setState({ isLoading: false });
     });
   }
 
   render() {
-    if (this.loading) return null; // replace with spinner
+    const { isLoading } = this.state;
+    if (isLoading) return null; // replace with spinner
     return (
       <GameDiv innerRef={(ref) => { this.parent = ref; }} />
     );
