@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import glam from 'glamorous';
+import scriptjs from 'scriptjs';
+import FidgetSpinner from './games/fidgetSpinner/FidgetSpinner';
+import Pong from './games/pong/Pong';
 
 const GameDiv = glam.div({
   backgroundColor: 'orange',
@@ -10,20 +13,29 @@ const GameDiv = glam.div({
   justifyContent: 'center',
 });
 
+const Games = {
+  'fidget-spinner': FidgetSpinner,
+  'pong': Pong,
+};
+
 class GameScene extends Component {
 
+  state = { phaserReady: false };
+
   componentDidMount() {
-    import(/* webpackChunkName: "game" */ './games/test/src/index').then((module) => {
-      const create = module.default;
-      create(this.parent);
-    })
+    scriptjs(['https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js'], 'phaser')
+    scriptjs.ready('phaser', () => {
+      this.setState({ phaserReady: true });
+    });
   }
 
   render() {
     const { match: { params } } = this.props;
-    console.log('oh hi params', params);
+    const { phaserReady } = this.state;
+    if (!phaserReady) return null;
+    const Comp = Games[params.gameId];
     return (
-      <GameDiv innerRef={(ref) => { this.parent = ref; }} />
+      <Comp />
     );
   }
 }

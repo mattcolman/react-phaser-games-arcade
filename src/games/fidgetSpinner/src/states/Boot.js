@@ -37,7 +37,7 @@ export default class extends Phaser.State {
   scaleGame = () => {
     const xScale = this.game.parent.offsetWidth / this.game.width;
     const yScale = this.game.parent.offsetHeight / this.game.height;
-    console.log('resize', this.game.parent.offsetHeight, this.game.height);
+    // console.log('resize', this.game.parent.offsetHeight, this.game.height);
     const scale = Math.min(xScale, yScale);
     this.scale.setUserScale(scale, scale);
   }
