@@ -4,18 +4,6 @@ const path = require('path');
 const isProd = process.env.NODE_ENV === 'production';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// Phaser webpack config
-// const phaserModule = path.join(__dirname, '/node_modules/phaser/');
-// const phaser = path.join(phaserModule, 'build/custom/phaser-split.js');
-// const pixi = path.join(phaserModule, 'build/custom/pixi.js');
-// const p2 = path.join(phaserModule, 'build/custom/p2.js');
-//
-// const phaserLoaders = [
-//   { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
-//   { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
-//   { test: /p2\.js/, use: ['expose-loader?p2'] },
-// ];
-
 module.exports = {
   context: __dirname,
   entry: {
@@ -40,13 +28,6 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'phaser',
-      minChunks(module) {
-        return module.context && module.context.indexOf('node_modules/phaser') >= 0;
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({ name: 'manifest' }),
   ].concat(isProd ? [
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -56,7 +37,6 @@ module.exports = {
   ] : []),
   module: {
     rules: [
-      // ...phaserLoaders,
       {
         test: /\.jsx?$/,
         use: 'babel-loader',
@@ -135,9 +115,6 @@ module.exports = {
     modules: ['node_modules'],
     alias: {
       src: path.join(__dirname, 'src'),
-      // phaser,
-      // pixi,
-      // p2,
     },
   },
 };

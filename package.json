@@ -17,7 +17,6 @@
     "gsap": "^1.19.0",
     "history": "^4.6.2",
     "lodash": "^4.16.6",
-    "phaser": "^2.6.2",
     "phaser-manifest-loader": "^2.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

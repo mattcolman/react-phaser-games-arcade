@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import ManifestLoader from 'phaser-manifest-loader';
 import Main from './Main';
 
