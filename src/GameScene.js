@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import scriptjs from 'scriptjs';
 import GameLoader from './GameLoader';
 
 type Props = {
@@ -10,21 +9,9 @@ type Props = {
 
 class GameScene extends Component {
   props: Props;
-  state = { phaserReady: window.Phaser };
-
-  componentWillMount() {
-    if (!window.Phaser) {
-      scriptjs(['https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js'], 'phaser');
-      scriptjs.ready('phaser', () => {
-        this.setState({ phaserReady: true });
-      });
-    }
-  }
 
   render() {
     const { match: { params } } = this.props;
-    const { phaserReady } = this.state;
-    if (!phaserReady) return null; // replace with spinner
     return (
       <GameLoader gameId={params.gameId} />
     );

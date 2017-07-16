@@ -4,6 +4,18 @@ const path = require('path');
 const isProd = process.env.NODE_ENV === 'production';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// Phaser webpack config
+const phaserModule = path.join(__dirname, '/node_modules/phaser/');
+const phaser = path.join(phaserModule, 'build/custom/phaser-split.js');
+const pixi = path.join(phaserModule, 'build/custom/pixi.js');
+const p2 = path.join(phaserModule, 'build/custom/p2.js');
+
+const phaserLoaders = [
+  { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
+  { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
+  { test: /p2\.js/, use: ['expose-loader?p2'] },
+];
+
 module.exports = {
   context: __dirname,
   entry: {
@@ -11,6 +23,7 @@ module.exports = {
       'babel-polyfill',
       path.resolve(__dirname, 'src/index.js'),
     ],
+    // vendor: ['pixi', 'p2', 'phaser', 'webfontloader'],
   },
   output: {
     path: path.resolve(__dirname, 'public'),
@@ -28,6 +41,14 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: "commonlazy",
+      children: true,
+      minChunks: 2,
+    }),
+    new webpack.ProvidePlugin({
+      Promise: 'imports-loader?this=>global!exports-loader?global.Promise!es6-promise'
+    })
   ].concat(isProd ? [
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -37,6 +58,7 @@ module.exports = {
   ] : []),
   module: {
     rules: [
+      ...phaserLoaders,
       {
         test: /\.jsx?$/,
         use: 'babel-loader',
@@ -115,6 +137,9 @@ module.exports = {
     modules: ['node_modules'],
     alias: {
       src: path.join(__dirname, 'src'),
+      phaser,
+      pixi,
+      p2,
     },
   },
 };
