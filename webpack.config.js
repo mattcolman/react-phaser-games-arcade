@@ -1,6 +1,6 @@
+const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
-const webpack = require('webpack');
 const isProd = process.env.NODE_ENV === 'production';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -17,6 +17,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // ];
 
 module.exports = {
+  context: __dirname,
   entry: {
     app: [
       'babel-polyfill',
