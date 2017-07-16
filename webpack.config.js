@@ -117,4 +117,7 @@ module.exports = {
       src: path.join(__dirname, 'src'),
     },
   },
+  externals: {
+    phaser: 'Phaser',
+  },
 };
