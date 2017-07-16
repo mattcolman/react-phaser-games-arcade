@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import glam from 'glamorous';
+import glam, { Span } from 'glamorous';
 import Spinner from 'src/components/commons/Spinner';
 
 type Props = {
@@ -55,11 +55,15 @@ class GameLoader extends Component {
     this.game = null;
     this.setState({ isLoading: true });
 
-    Games[gameId]((module) => {
-      const create = module.default;
-      this.game = create(this.parent);
+    if (Games.hasOwnProperty(gameId)) {
+      Games[gameId]((module) => {
+        const create = module.default;
+        this.game = create(this.parent);
+        this.setState({ isLoading: false });
+      });
+    } else {
       this.setState({ isLoading: false });
-    });
+    }
   }
 
   render() {
@@ -68,6 +72,9 @@ class GameLoader extends Component {
       <GameDiv innerRef={(ref) => { this.parent = ref; }}>
         {isLoading && (
           <Spinner />
+        )}
+        {!isLoading && !this.game && (
+          <Span marginTop={30}>Game not found :(</Span>
         )}
       </GameDiv>
     );
