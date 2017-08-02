@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const isProd = process.env.NODE_ENV === 'production';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -19,6 +20,10 @@ module.exports = {
     publicPath: '/',
   },
   plugins: [
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, 'node_modules/phaser/build/phaser.min.js'),
+      to: path.resolve(__dirname, 'public'),
+    }], { debug: 'warning' }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'template.html',

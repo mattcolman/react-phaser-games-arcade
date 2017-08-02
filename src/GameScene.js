@@ -14,7 +14,7 @@ class GameScene extends Component {
 
   componentWillMount() {
     if (!window.Phaser) {
-      scriptjs(['https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js'], 'phaser');
+      scriptjs(['./phaser.min.js'], 'phaser');
       scriptjs.ready('phaser', () => {
         this.setState({ phaserReady: true });
       });
