@@ -27,6 +27,7 @@ const MainDiv = glam.div({
   minHeight: '100%',
   display: 'flex',
   flexDirection: 'column',
+  position: 'relative',
 });
 
 const GameDiv = glam.div(props => ({
@@ -35,6 +36,9 @@ const GameDiv = glam.div(props => ({
   justifyContent: 'center',
   display: 'flex',
   opacity: props.hide ? 0 : 1,
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
 }));
 
 class GameLoader extends Component {
@@ -48,10 +52,12 @@ class GameLoader extends Component {
   componentWillMount() {
     if (!window.Phaser) {
       loadPhaser().then(() => {
+        this.loadNewGame(this.props.gameId);
         // this.setState({ isPhaserLoaded: true });
       });
+    } else {
+      this.loadNewGame(this.props.gameId);
     }
-    this.loadNewGame(this.props.gameId);
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -77,7 +83,7 @@ class GameLoader extends Component {
         const create = module.default;
         this.game = create(this.parent);
         console.log('what the game', this.game)
-        this.setState({ isGameLoaded: true });
+        // this.setState({ isGameLoaded: true });
       });
     } else {
       // this.setState({ isGameLoaded: true });
@@ -101,7 +107,7 @@ class GameLoader extends Component {
                 title="phaser"
               />
             )}
-            {!isGameLoaded && (
+            {!isGameLoaded && isPhaserLoaded && (
               <SuperLoader
                 delay={2.5}
                 onComplete={() => this.setState({ isGameLoaded: true })}
