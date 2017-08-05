@@ -25,14 +25,6 @@ const StyledSpan = glam.span({
   borderRight: '2px solid rgba(255, 255, 255, 0.3)',
   borderTop: '2px solid rgba(255, 255, 255, 1)',
   marginTop: 30,
-  '@keyframes rotation': {
-    from: {
-      transform: 'rotate(0deg)',
-    },
-    to: {
-      transform: 'rotate(359deg)',
-    },
-  },
 });
 
 function Spinner({

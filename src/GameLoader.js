@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import glam, { Span } from 'glamorous';
-import Spinner from 'src/components/commons/Spinner';
+import SuperLoader from './components/commons/SuperLoader';
 
 type Props = {
   gameId: string,
@@ -10,6 +10,7 @@ type Props = {
 
 type State = {
   isLoading: boolean,
+  gameActuallyReady: boolean,
 };
 
 // use bundle-loader because it's slightly easier to handle lazy loading.
@@ -19,19 +20,29 @@ const Games = {
   'pong': require("bundle-loader?lazy&name=pong!./games/pong/src/index.js"),
 };
 
-const GameDiv = glam.div({
-  backgroundColor: 'orange',
+const MainDiv = glam.div({
   flexGrow: 1,
   height: '100%',
   minHeight: '100%',
   display: 'flex',
-  justifyContent: 'center',
+  flexDirection: 'column',
 });
+
+const GameDiv = glam.div(props => ({
+  backgroundColor: 'orange',
+  flexGrow: 1,
+  justifyContent: 'center',
+  display: 'flex',
+  opacity: props.hide ? 0 : 1,
+}));
 
 class GameLoader extends Component {
 
   props: Props;
-  state: State = { isLoading: true };
+  state: State = {
+    isLoading: true,
+    gameActuallyReady: false,
+  };
 
   componentWillMount() {
     this.loadNewGame(this.props.gameId);
@@ -67,16 +78,26 @@ class GameLoader extends Component {
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { gameId } = this.props;
+    const {
+      gameActuallyReady,
+      isLoading,
+    } = this.state;
     return (
-      <GameDiv innerRef={(ref) => { this.parent = ref; }}>
-        {isLoading && (
-          <Spinner />
+      <MainDiv id="mainDiv">
+        {!gameActuallyReady && (
+          <SuperLoader
+            isLoaded={!isLoading}
+            delay={4}
+            onComplete={() => this.setState({ gameActuallyReady: true })}
+            title="game"
+          />
         )}
         {!isLoading && !this.game && (
           <Span marginTop={30}>Game not found :(</Span>
         )}
-      </GameDiv>
+        <GameDiv hide={!gameActuallyReady} innerRef={(ref) => { this.parent = ref; }} />
+      </MainDiv>
     );
   }
 }
