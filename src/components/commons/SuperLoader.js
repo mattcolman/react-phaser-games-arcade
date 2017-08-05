@@ -34,7 +34,7 @@ const Bar = glam.div(props => ({
 class SuperLoader extends Component {
   props: Props;
   state = { progress: 0 };
-  static timer;
+  static timer: ?TweenMax = null;
 
   componentDidMount() {
     const {
@@ -44,19 +44,19 @@ class SuperLoader extends Component {
     this.timer = TweenMax.to(this.barRef, delay, { onUpdate: this.handleUpdate, onUpdateParams: ['{self}'], onComplete: this.handleComplete });
   }
 
+  componentWillUnmount() {
+    if (this.timer) this.timer.kill();
+    this.timer = null;
+  }
+
   handleUpdate = (tween: TweenMax) => {
     this.setState({ progress: tween.progress() });
   }
 
   handleComplete = () => {
-    const {
-      isLoaded,
-      onComplete,
-    } = this.props;
+    const { onComplete } = this.props;
     console.log('handleComplete')
-    if (isLoaded) {
-      onComplete();
-    }
+    onComplete();
   }
 
   render() {
@@ -67,7 +67,9 @@ class SuperLoader extends Component {
     return (
       <SuperLoaderDiv>
         <Bar innerRef={ref => this.barRef = ref} percent={progress} />
-        <Span position="relative">{`Loading ${title}`}</Span>
+        <Span position="relative">
+          {progress === 1 ? `Loaded ${title}` : `Loading ${title}`}
+        </Span>
       </SuperLoaderDiv>
     );
   }

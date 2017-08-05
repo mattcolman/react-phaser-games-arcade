@@ -3,14 +3,15 @@
 import React, { Component } from 'react';
 import glam, { Span } from 'glamorous';
 import SuperLoader from './components/commons/SuperLoader';
+import loadPhaser from './components/commons/loadPhaser';
 
 type Props = {
   gameId: string,
 };
 
 type State = {
-  isLoading: boolean,
-  gameActuallyReady: boolean,
+  isGameLoaded: boolean,
+  isPhaserLoaded: boolean,
 };
 
 // use bundle-loader because it's slightly easier to handle lazy loading.
@@ -40,11 +41,16 @@ class GameLoader extends Component {
 
   props: Props;
   state: State = {
-    isLoading: true,
-    gameActuallyReady: false,
+    isGameLoaded: false,
+    isPhaserLoaded: window.Phaser,
   };
 
   componentWillMount() {
+    if (!window.Phaser) {
+      loadPhaser().then(() => {
+        // this.setState({ isPhaserLoaded: true });
+      });
+    }
     this.loadNewGame(this.props.gameId);
   }
 
@@ -64,39 +70,50 @@ class GameLoader extends Component {
   loadNewGame = (gameId: string) => {
     if (this.game) this.game.destroy();
     this.game = null;
-    this.setState({ isLoading: true });
-
+    this.setState({ isGameLoaded: false });
+    console.log('new game', gameId)
     if (Games.hasOwnProperty(gameId)) {
       Games[gameId]((module) => {
         const create = module.default;
         this.game = create(this.parent);
-        this.setState({ isLoading: false });
+        console.log('what the game', this.game)
+        this.setState({ isGameLoaded: true });
       });
     } else {
-      this.setState({ isLoading: false });
+      // this.setState({ isGameLoaded: true });
     }
   }
 
   render() {
     const { gameId } = this.props;
     const {
-      gameActuallyReady,
-      isLoading,
+      isPhaserLoaded,
+      isGameLoaded,
     } = this.state;
     return (
       <MainDiv id="mainDiv">
-        {!gameActuallyReady && (
-          <SuperLoader
-            isLoaded={!isLoading}
-            delay={4}
-            onComplete={() => this.setState({ gameActuallyReady: true })}
-            title="game"
-          />
+        {!(isPhaserLoaded && isGameLoaded) && (
+          <div>
+            {!isPhaserLoaded && (
+              <SuperLoader
+                delay={4}
+                onComplete={() => this.setState({ isPhaserLoaded: true })}
+                title="phaser"
+              />
+            )}
+            {!isGameLoaded && (
+              <SuperLoader
+                delay={2.5}
+                onComplete={() => this.setState({ isGameLoaded: true })}
+                title="game"
+              />
+            )}
+          </div>
         )}
-        {!isLoading && !this.game && (
+        {isGameLoaded && !this.game && (
           <Span marginTop={30}>Game not found :(</Span>
         )}
-        <GameDiv hide={!gameActuallyReady} innerRef={(ref) => { this.parent = ref; }} />
+        <GameDiv hide={!isGameLoaded || !isPhaserLoaded} innerRef={(ref) => { this.parent = ref; }} />
       </MainDiv>
     );
   }
