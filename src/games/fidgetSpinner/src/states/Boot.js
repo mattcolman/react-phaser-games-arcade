@@ -9,6 +9,11 @@ const manifest = {
   spritesheets: [
   ],
   images: [
+    'circle',
+    'poo',
+    'sunnies',
+    'fire',
+    'monkey',
   ],
   bitmap_fonts: [
   ],

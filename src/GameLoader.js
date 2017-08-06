@@ -102,24 +102,24 @@ class GameLoader extends Component {
           <div>
             {!isPhaserLoaded && (
               <SuperLoader
-                delay={4}
+                delay={1}
                 onComplete={() => this.setState({ isPhaserLoaded: true })}
                 title="phaser"
               />
             )}
             {!isGameLoaded && isPhaserLoaded && (
               <SuperLoader
-                delay={2.5}
+                delay={1}
                 onComplete={() => this.setState({ isGameLoaded: true })}
                 title="game"
               />
             )}
           </div>
         )}
-        {isGameLoaded && !this.game && (
-          <Span marginTop={30}>Game not found :(</Span>
-        )}
         <GameDiv hide={!isGameLoaded || !isPhaserLoaded} innerRef={(ref) => { this.parent = ref; }} />
+        {isGameLoaded && !this.game && (
+          <Span position="relative" marginTop={30}>Game not found :(</Span>
+        )}
       </MainDiv>
     );
   }
