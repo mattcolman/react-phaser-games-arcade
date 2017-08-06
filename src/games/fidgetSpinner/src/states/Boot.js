@@ -14,6 +14,7 @@ const manifest = {
     'sunnies',
     'fire',
     'monkey',
+    'poo_back',
   ],
   bitmap_fonts: [
   ],

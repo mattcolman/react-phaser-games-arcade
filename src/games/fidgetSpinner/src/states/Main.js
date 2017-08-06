@@ -68,7 +68,9 @@ export default class extends Phaser.State {
   }
 
   addTerrain() {
-    return this.add.tileSprite(0, this.world.height - 300, this.world.width, 200, this.makeTerrainBmd());
+    const terrain = this.add.tileSprite(0, this.world.height - 300, this.world.width, 200, 'poo_back');
+    terrain.alpha = 0.5;
+    return terrain;
   }
 
   addPlayer() {
@@ -79,7 +81,8 @@ export default class extends Phaser.State {
 
   addEnemy() {
     const w = 100;
-    const enemy = this.add.sprite(this.world.width, this.floorY, sample(ENEMIES));
+    const enemyType = sample(ENEMIES);
+    const enemy = this.add.sprite(this.world.width, enemyType === 'fire' ? this.floorY - 100 : this.floorY, enemyType);
     enemy.width = w;
     enemy.height = w;
     enemy.anchor.set(0, 1);
@@ -92,7 +95,7 @@ export default class extends Phaser.State {
   }
 
   update() {
-    this.terrain.tilePosition.x += 1;
+    this.terrain.tilePosition.x -= 1;
     this.enemies.forEach((enemy) => {
       enemy.x -= 3;
       if (enemy.x < -enemy.width) {
