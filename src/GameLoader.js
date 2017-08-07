@@ -102,14 +102,14 @@ class GameLoader extends Component {
           <div>
             {!isPhaserLoaded && (
               <SuperLoader
-                delay={1}
+                delay={4}
                 onComplete={() => this.setState({ isPhaserLoaded: true })}
                 title="phaser"
               />
             )}
             {!isGameLoaded && isPhaserLoaded && (
               <SuperLoader
-                delay={1}
+                delay={3}
                 onComplete={() => this.setState({ isGameLoaded: true })}
                 title="game"
               />

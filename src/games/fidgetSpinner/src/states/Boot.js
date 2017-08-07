@@ -15,6 +15,7 @@ const manifest = {
     'fire',
     'monkey',
     'poo_back',
+    'poo_particle',
   ],
   bitmap_fonts: [
   ],
