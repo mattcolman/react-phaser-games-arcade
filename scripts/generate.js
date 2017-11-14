@@ -1,32 +1,18 @@
 const fs = require('fs');
 const handlebars = require('handlebars');
-var ncp = require('ncp').ncp;
+const ncp = require('ncp').ncp;
 
 ncp.limit = 16;
 
-const name = 'newGame';
-const dir = `src/games/${name}`;
+const name = process.argv[2];
 
-ncp('src/games/example', `src/games/${name}`, function (err) {
+if (!name) {
+  console.error('generate what??');
+}
+
+ncp('src/games/example', `src/games/${name}`, err => {
   if (err) {
     return console.error(err);
   }
-  console.log('done!');
+  console.log(`Success! ${name} generated`);
 });
-
-// const source = fs.readFileSync('template/Boot.hbs', 'utf-8');
-// const template = handlebars.compile(source);
-//
-// const bootContents = template({ title: 'Wohooo!' });
-//
-// if (!fs.existsSync(dir)) {
-//   fs.mkdirSync(dir);
-//   fs.mkdirSync(`${dir}/src`);
-// }
-//
-// fs.writeFile('Boot.js', bootContents, err => {
-//   if (err) {
-//     return console.error(`Autsch! Failed to store template: ${err.message}.`);
-//   }
-//   console.log('Saved template!');
-// });
