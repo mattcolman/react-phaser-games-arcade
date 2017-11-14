@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import glam from 'glamorous';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import games from './games';
 
 const sideBarWidth = 200;
 const bodyPadding = sideBarWidth + 10;
@@ -35,15 +36,7 @@ const Footer = glam.div({
   paddingLeft: bodyPadding,
 });
 
-const games = [
-  { name: 'game 1', url: '/game/fidget-spinner' },
-  { name: 'game 2', url: '/game/pong' },
-  { name: 'game 3', url: '/game/3' },
-];
-
-export default function App({
-  children,
-}) {
+export default function App({ children }) {
   return (
     <div>
       <Helmet titleTemplate="%s | Games Arcade" />
@@ -53,12 +46,8 @@ export default function App({
           <Header />
           {children}
         </AppBody>
-        <Sidebar
-          games={games}
-          width={sideBarWidth}
-        />
-        <Footer
-        />
+        <Sidebar games={games} width={sideBarWidth} />
+        <Footer />
       </AppBodyWrapper>
     </div>
   );
